@@ -14,12 +14,13 @@ class ViewController: UIViewController {
     
     // MARK: - Properties
     
-    let questionsPerRound = 4
+    // TODO: Rework with a GameManager!!!
+    // such as randomly generating a question to be displayed, handing that question over to whatever object needs it and checking if the user guessed correctly. Your view controller then asks for the question, updates it’s UI and responds to user interaction.
     var questionsAsked = 0
     var correctQuestions = 0    
     var gameSound: SystemSoundID = 0
     
-    let trivia = QuestionProvider()
+    let gameManager = GameManager(questionsPerRound: 4)
     var currentQuestion: Question?
     
     
@@ -36,7 +37,7 @@ class ViewController: UIViewController {
         trueButton.layer.cornerRadius = 10.0
         falseButton.layer.cornerRadius = 10.0
         playAgainButton.layer.cornerRadius = 10.0
-        
+                
         loadGameStartSound()
         playGameStartSound()
         displayQuestion()
@@ -55,7 +56,7 @@ class ViewController: UIViewController {
     }
     
     func displayQuestion() {
-        currentQuestion = trivia.randomQuestion()
+        currentQuestion = gameManager.randomQuestion()
         questionField.text = currentQuestion?.title
         playAgainButton.isHidden = true
     }
@@ -68,11 +69,11 @@ class ViewController: UIViewController {
         // Display play again button
         playAgainButton.isHidden = false
         
-        questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
+        questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(gameManager.questionsPerRound) correct!"
     }
     
     func nextRound() {
-        if questionsAsked == questionsPerRound {
+        if questionsAsked == gameManager.questionsPerRound {
             // Game is over
             displayScore()
         } else {
@@ -96,21 +97,21 @@ class ViewController: UIViewController {
     // MARK: - Actions
     
     @IBAction func checkAnswer(_ sender: UIButton) {
+        
         // Increment the questions asked counter
         questionsAsked += 1
         
         if let currentQuestion = currentQuestion {
-            let correctAnswer = currentQuestion.answer
-        
-            if (sender === trueButton &&  correctAnswer == true) || (sender === falseButton && correctAnswer == false) {
-                correctQuestions += 1
-                questionField.text = "Correct!"
+            if sender == trueButton {
+                questionField.text = gameManager.checkAnswer(currentQuestion, userAnswer: true)
             } else {
-                questionField.text = "Sorry, wrong answer!"
+                questionField.text = gameManager.checkAnswer(currentQuestion, userAnswer: false)
+
             }
-        
-            loadNextRound(delay: 2)
         }
+        
+        loadNextRound(delay: 2)
+        
     }
     
     

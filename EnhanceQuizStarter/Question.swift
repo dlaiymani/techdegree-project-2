@@ -10,5 +10,9 @@
 struct Question {
     let title: String
     let answer: Bool
+    
+    func isCorrectAnswer(_ answer: Bool) -> Bool {
+        return answer == self.answer
+    }
 }
 
