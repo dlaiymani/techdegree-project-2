@@ -23,8 +23,8 @@ class QuizManager {
         self.quiz = Quiz(questionsPerRound: questionsPerRound)
     }
     
+    
     func randomQuestion() -> Question {
-        
         var randomNumber = GKRandomSource.sharedRandom().nextInt(upperBound: quiz.questions.count)
         return quiz.questions[randomNumber]
     }
