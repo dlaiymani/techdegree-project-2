@@ -27,15 +27,22 @@ class ViewController: UIViewController {
     // MARK: - Outlets
     
     @IBOutlet weak var questionField: UILabel!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
+    @IBOutlet weak var answerField: UILabel!
+    @IBOutlet weak var answerOneButton: UIButton!
+    @IBOutlet weak var answerTwoButton: UIButton!
+    @IBOutlet weak var answerThreeButton: UIButton!
+    @IBOutlet weak var answerFourButton: UIButton!
+
     @IBOutlet weak var playAgainButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        trueButton.layer.cornerRadius = 10.0
-        falseButton.layer.cornerRadius = 10.0
+        answerOneButton.layer.cornerRadius = 10.0
+        answerTwoButton.layer.cornerRadius = 10.0
+        answerThreeButton.layer.cornerRadius = 10.0
+        answerFourButton.layer.cornerRadius = 10.0
+        answerField.isHidden = true
         playAgainButton.layer.cornerRadius = 10.0
                 
         loadGameStartSound()

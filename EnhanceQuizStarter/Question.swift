@@ -9,9 +9,10 @@
 
 struct Question {
     let title: String
-    let answer: Bool
+    let options: [String]
+    let answer: Int
     
-    func isCorrectAnswer(_ answer: Bool) -> Bool {
+    func isCorrectAnswer(_ answer: Int) -> Bool {
         return answer == self.answer
     }
 }
