@@ -12,8 +12,8 @@ struct Question {
     let options: [String]
     let answer: Int
     
-    func isCorrectAnswer(_ answer: Int) -> Bool {
-        return answer == self.answer
-    }
+   // func isCorrectAnswer(_ answer: Int) -> Bool {
+    //    return answer == self.answer
+    //}
 }
 

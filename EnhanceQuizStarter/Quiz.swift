@@ -23,7 +23,7 @@ class Quiz {
                         Question(title: "Which country was the first to allow women to vote in national elections?", options: ["Poland", "United States", "Sweden", "Senegal"], answer: 0),
                         Question(title: "Which of these countries won the most medals in the 2012 Summer Games? ", options: ["France", "Germany", "Japan", "Great Britian"], answer: 3)]
     
-    var questions: [Question]
+    var questions: [Question] // a sub-set of questionsSet
     var questionsPerRound: Int
     
     init(questionsPerRound: Int) {
@@ -31,12 +31,13 @@ class Quiz {
         self.questionsPerRound = questionsPerRound
         self.questions = [Question]()
         
+        // Ensure no duplicate questions in the quiz
         var alreadyChoosenQuestion = [Int]()
-        for i in 0..<questionsPerRound {
-            var randomNumber = GKRandomSource.sharedRandom().nextInt(upperBound: questionsSet.count)
-            while alreadyChoosenQuestion.index(where: {$0 == randomNumber}) != nil {
+        for _ in 0..<questionsPerRound {
+            var randomNumber = 0
+            repeat {
                 randomNumber = GKRandomSource.sharedRandom().nextInt(upperBound: questionsSet.count)
-            }
+            } while alreadyChoosenQuestion.index(where: {$0 == randomNumber}) != nil
             alreadyChoosenQuestion.append(randomNumber)
             
             self.questions.append(questionsSet[randomNumber])

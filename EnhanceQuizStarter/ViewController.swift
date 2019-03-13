@@ -8,7 +8,6 @@
 
 import UIKit
 import GameKit
-import AudioToolbox
 
 class ViewController: UIViewController {
     
@@ -16,21 +15,16 @@ class ViewController: UIViewController {
     
     var questionsAsked = 0
     var correctQuestions = 0    
-    var gameSound: SystemSoundID = 0
     
     let quizManager = QuizManager(questionsPerRound: 4)
     var currentQuestion: Question?
-    
-    var answersButtons = [UIButton]()
     
     // MARK: - Outlets
     
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var answerField: UILabel!
-    @IBOutlet weak var answerOneButton: UIButton!
-    @IBOutlet weak var answerTwoButton: UIButton!
-    @IBOutlet weak var answerThreeButton: UIButton!
-    @IBOutlet weak var answerFourButton: UIButton!
+    
+    @IBOutlet var answersButtons: [UIButton]!
 
     @IBOutlet weak var playAgainButton: UIButton!
 
@@ -38,38 +32,30 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // Initialize an array containing the four answer buttons
-        answersButtons = [answerOneButton, answerTwoButton, answerThreeButton, answerFourButton]
-        for i in 0...3 {
-            answersButtons[i].layer.cornerRadius = 10.0
+        
+        for button in answersButtons {
+            button.layer.cornerRadius = 10.0
         }
         
         answerField.isHidden = true
         playAgainButton.layer.cornerRadius = 10.0
                 
-        loadGameStartSound()
-        playGameStartSound()
+        SoundManager.playGameStartSound()
         displayQuestionAndAnswers()
     }
     
     // MARK: - Helpers
     
-    func loadGameStartSound() {
-        let path = Bundle.main.path(forResource: "GameSound", ofType: "wav")
-        let soundUrl = URL(fileURLWithPath: path!)
-        AudioServicesCreateSystemSoundID(soundUrl as CFURL, &gameSound)
-    }
-    
-    func playGameStartSound() {
-        AudioServicesPlaySystemSound(gameSound)
-    }
     
     func displayQuestionAndAnswers() {
         currentQuestion = quizManager.randomQuestion()
         questionField.text = currentQuestion?.title
         
         if let currentQuestion = currentQuestion {
-            for i in 0...3 {
-                answersButtons[i].setTitle(currentQuestion.options[i], for: .normal)
+            var i = 0
+            for button in answersButtons {
+                button.setTitle(currentQuestion.options[i], for: .normal)
+                i += 1
             }
         }
 
@@ -77,10 +63,12 @@ class ViewController: UIViewController {
     }
     
     func displayScore() {
-        // Hide the answer uttons
-        for i in 0...3 {
-            answersButtons[i].isHidden = true
+        // Hide the answer buttons
+        
+        for button in answersButtons {
+            button.isHidden = true
         }
+       
         // Display play again button
         playAgainButton.isHidden = false
         
@@ -89,9 +77,11 @@ class ViewController: UIViewController {
     
     func nextRound() {
         answerField.isHidden = true
-        for i in 0...3 {
-            answersButtons[i].isEnabled = true
+        
+        for button in answersButtons {
+            button.isEnabled = true
         }
+        
         if questionsAsked == quizManager.questionsPerRound {
             // Game is over
             displayScore()
@@ -119,20 +109,24 @@ class ViewController: UIViewController {
         // Increment the questions asked counter
         questionsAsked += 1
         
-        let index = answersButtons.index(where: {$0 == sender})
-        
-        if let currentQuestion = currentQuestion, let i = index {
-            for button in 0...3 {
-                if button != i {
-                    answersButtons[button].isEnabled = false
-                }
+        // Disable non answered button and return the answer number
+        var numButton = 0
+        for (index, button) in answersButtons.enumerated() {
+            if button != sender {
+                button.isEnabled = false
+            } else {
+                numButton = index
             }
-            
-            let isAnswerCorrect = quizManager.checkAnswer(currentQuestion, userAnswer: i)
+        }
+        
+        // Test if the answer is correct
+        if let currentQuestion = currentQuestion  {
+            let isAnswerCorrect = quizManager.checkAnswer(currentQuestion, userAnswer: numButton)
             if isAnswerCorrect {
                 answerField.textColor = UIColor(red: 0/255.0, green: 147/255.0, blue: 135/255.0, alpha: 1.0)
                 answerField.text = "Correct!"
                 answerField.isHidden = false
+                correctQuestions += 1
 
             } else {
                 answerField.textColor = UIColor.orange
@@ -146,10 +140,9 @@ class ViewController: UIViewController {
     
     @IBAction func playAgain(_ sender: UIButton) {
         // Show the answer buttons
-        answerOneButton.isHidden = false
-        answerTwoButton.isHidden = false
-        answerThreeButton.isHidden = false
-        answerFourButton.isHidden = false
+        for button in answersButtons {
+            button.isHidden = false
+        }
         
         questionsAsked = 0
         correctQuestions = 0

@@ -112,12 +112,12 @@
                     </view>
                     <connections>
                         <outlet property="answerField" destination="EpV-Rx-Ynv" id="LXk-NW-tGb"/>
-                        <outlet property="answerFourButton" destination="qYh-2d-v8I" id="SEh-9R-8RX"/>
-                        <outlet property="answerOneButton" destination="CSn-ih-qRR" id="abn-QI-jhI"/>
-                        <outlet property="answerThreeButton" destination="lgd-8e-7g5" id="KTE-Ci-GXW"/>
-                        <outlet property="answerTwoButton" destination="b9F-Z8-w6h" id="VYR-fl-avZ"/>
                         <outlet property="playAgainButton" destination="eic-Nx-foS" id="fZz-Md-Y70"/>
                         <outlet property="questionField" destination="dCF-BL-dDa" id="HIQ-UX-KNe"/>
+                        <outletCollection property="answersButtons" destination="CSn-ih-qRR" collectionClass="NSMutableArray" id="2mr-XT-J60"/>
+                        <outletCollection property="answersButtons" destination="b9F-Z8-w6h" collectionClass="NSMutableArray" id="4xO-rE-7tG"/>
+                        <outletCollection property="answersButtons" destination="lgd-8e-7g5" collectionClass="NSMutableArray" id="HOY-TM-00f"/>
+                        <outletCollection property="answersButtons" destination="qYh-2d-v8I" collectionClass="NSMutableArray" id="7le-H7-zMN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
