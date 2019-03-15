@@ -21,6 +21,24 @@ struct SoundManager {
         AudioServicesPlaySystemSound(gameSound)
     }
     
+    static func playCorrectAnswerSound() {
+        var gameSound: SystemSoundID = 0
+        
+        let path = Bundle.main.path(forResource: "correct", ofType: "wav")
+        let soundUrl = URL(fileURLWithPath: path!)
+        AudioServicesCreateSystemSoundID(soundUrl as CFURL, &gameSound)
+        AudioServicesPlaySystemSound(gameSound)
+    }
+    
+    static func playIncorrectAnswerSound() {
+        var gameSound: SystemSoundID = 0
+        
+        let path = Bundle.main.path(forResource: "incorrectSound", ofType: "wav")
+        let soundUrl = URL(fileURLWithPath: path!)
+        AudioServicesCreateSystemSoundID(soundUrl as CFURL, &gameSound)
+        AudioServicesPlayAlertSound(gameSound)
+    }
+    
     
 
 }

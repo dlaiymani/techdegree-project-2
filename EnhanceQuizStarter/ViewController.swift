@@ -80,6 +80,7 @@ class ViewController: UIViewController {
         
         for button in answersButtons {
             button.isEnabled = true
+            button.setTitleColor(UIColor.lightGray, for: .disabled)
         }
         
         if questionsAsked == quizManager.questionsPerRound {
@@ -125,14 +126,17 @@ class ViewController: UIViewController {
             if isAnswerCorrect {
                 answerField.textColor = UIColor(red: 0/255.0, green: 147/255.0, blue: 135/255.0, alpha: 1.0)
                 answerField.text = "Correct!"
+                SoundManager.playCorrectAnswerSound()
                 answerField.isHidden = false
                 correctQuestions += 1
 
             } else {
                 answerField.textColor = UIColor.orange
                 answerField.text = "Sorry. That's not it."
+                SoundManager.playIncorrectAnswerSound()
                 answerField.isHidden = false
                 // Display the correct answer by animating the button
+                answersButtons[currentQuestion.answer].setTitleColor(UIColor.orange, for: .disabled)
                 answersButtons[currentQuestion.answer].flash()
             }
         }
