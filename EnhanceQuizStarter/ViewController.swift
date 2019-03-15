@@ -55,15 +55,12 @@ class ViewController: UIViewController {
         if let currentQuestion = currentQuestion {
             // Display 3 or 4 buttons depending of the number of
             // options of the current question
-            let numberOfOptions = currentQuestion.options.count
-            var i = 0
-            for button in answersButtons {
-                if  i < numberOfOptions {
-                    button.setTitle(currentQuestion.options[i], for: .normal)
-                    i += 1
-                } else {
-                    button.isHidden = true
-                }
+            
+            if currentQuestion.options.count == 3 {
+                answersButtons[3].isHidden = true
+            }
+            for (index, option) in currentQuestion.options.enumerated() {
+                answersButtons[index].setTitle(option, for: .normal)                
             }
         }
         playAgainButton.isHidden = true
