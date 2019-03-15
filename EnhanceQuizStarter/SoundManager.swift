@@ -10,6 +10,7 @@ import Foundation
 import AudioToolbox
 
 // Manage the sounds of the game
+// Can do this with a unique function and a switch
 struct SoundManager {
     
     static func playGameStartSound() {
@@ -39,6 +40,15 @@ struct SoundManager {
         AudioServicesPlayAlertSound(gameSound)
     }
     
+    
+    static func playEndGame() {
+        var gameSound: SystemSoundID = 0
+        
+        let path = Bundle.main.path(forResource: "endQuiz", ofType: "wav")
+        let soundUrl = URL(fileURLWithPath: path!)
+        AudioServicesCreateSystemSoundID(soundUrl as CFURL, &gameSound)
+        AudioServicesPlayAlertSound(gameSound)
+    }
     
 
 }

@@ -76,6 +76,7 @@ class ViewController: UIViewController {
             button.isHidden = true
         }
        
+        SoundManager.playEndGame()
         // Display play again button
         playAgainButton.isHidden = false
         answerField.text = ""
