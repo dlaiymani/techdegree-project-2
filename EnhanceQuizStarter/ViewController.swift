@@ -19,6 +19,10 @@ class ViewController: UIViewController {
     let quizManager = QuizManager(questionsPerRound: 4)
     var currentQuestion: Question?
     
+    var timer = Timer()
+    // 14 seconds since it takes 1 second for the timer to initiate the countdown
+    var secondsPerQuestion = 3
+    
     // MARK: - Outlets
     
     @IBOutlet weak var questionField: UILabel!
@@ -37,9 +41,9 @@ class ViewController: UIViewController {
             button.layer.cornerRadius = 10.0
         }
         
-        answerField.isHidden = true
+        //answerField.isHidden = true
         playAgainButton.layer.cornerRadius = 10.0
-                
+    
         SoundManager.playGameStartSound()
         displayQuestionAndAnswers()
     }
@@ -50,7 +54,9 @@ class ViewController: UIViewController {
     func displayQuestionAndAnswers() {
         currentQuestion = quizManager.randomQuestion()
         questionField.text = currentQuestion?.title
-        
+        answerField.textColor = UIColor.orange
+        startTimer()
+
         if let currentQuestion = currentQuestion {
             var i = 0
             for button in answersButtons {
@@ -58,9 +64,10 @@ class ViewController: UIViewController {
                 i += 1
             }
         }
-
         playAgainButton.isHidden = true
+        //startTimer()
     }
+    
     
     func displayScore() {
         // Hide the answer buttons
@@ -76,7 +83,7 @@ class ViewController: UIViewController {
     }
     
     func nextRound() {
-        answerField.isHidden = true
+       // answerField.isHidden = true
         
         for button in answersButtons {
             button.isEnabled = true
@@ -100,6 +107,7 @@ class ViewController: UIViewController {
         
         // Executes the nextRound method at the dispatch time on the main queue
         DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
+            self.reinitTimer()
             self.nextRound()
         }
     }
@@ -109,7 +117,6 @@ class ViewController: UIViewController {
     @IBAction func checkAnswer(_ sender: UIButton) {
         // Increment the questions asked counter
         questionsAsked += 1
-        
         // Disable non answered button and return the answer number
         var numButton = 0
         for (index, button) in answersButtons.enumerated() {
@@ -141,6 +148,7 @@ class ViewController: UIViewController {
             }
         }
         loadNextRound(delay: 2)
+        reinitTimer()
     }
     
     
@@ -157,7 +165,34 @@ class ViewController: UIViewController {
         nextRound()
     }
     
-
+    
+    // MARK: Timer
+    func startTimer() {
+        answerField.text = "\(secondsPerQuestion+1)"
+        timer = Timer.scheduledTimer(timeInterval: 1 ,
+                                     target: self,
+                                     selector: #selector(self.changeDisplayLabel),
+                                     userInfo: nil,
+                                     repeats: true)
+    }
+    
+    @objc func changeDisplayLabel()
+    {
+        if secondsPerQuestion == 0  || secondsPerQuestion < 0 {
+            timer.invalidate()
+            answerField.text = "Sorry, Too Late"
+            loadNextRound(delay: 2)
+            
+        } else {
+            answerField.text = "\(secondsPerQuestion)"
+            secondsPerQuestion -= 1
+        }
+    }
+    
+    func reinitTimer() {
+        timer.invalidate()
+        secondsPerQuestion = 14
+    }
     
 }
 

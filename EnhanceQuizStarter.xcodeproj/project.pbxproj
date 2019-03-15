@@ -72,7 +72,6 @@
 			children = (
 				972A72B02056F06C0059EF4A /* AppDelegate.swift */,
 				972A72B22056F06C0059EF4A /* ViewController.swift */,
-				AA1CCF4D223B843700489C70 /* UIButtonExtension.swift */,
 				972A72B42056F06C0059EF4A /* Main.storyboard */,
 				972A72B72056F06C0059EF4A /* Assets.xcassets */,
 				972A72B92056F06C0059EF4A /* LaunchScreen.storyboard */,
@@ -84,6 +83,7 @@
 				AA26D2CD223808B0005C4DA4 /* QuizManager.swift */,
 				AA26D2CF22391003005C4DA4 /* Quiz.swift */,
 				AA1CCF4B22395DB700489C70 /* SoundManager.swift */,
+				AA1CCF4D223B843700489C70 /* UIButtonExtension.swift */,
 			);
 			path = EnhanceQuizStarter;
 			sourceTree = "<group>";
