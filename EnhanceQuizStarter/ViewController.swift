@@ -12,16 +12,16 @@ import GameKit
 class ViewController: UIViewController {
     
     // MARK: - Properties
-    
-    var questionsAsked = 0
-    var correctQuestions = 0    
+
+    var questionsAsked = 0 // nb of questions asked
+    var correctQuestions = 0   //nb of correct answers
     
     let quizManager = QuizManager(questionsPerRound: 4)
     var currentQuestion: Question?
     
     var timer = Timer()
     // 14 seconds since it takes 1 second for the timer to initiate the countdown
-    var secondsPerQuestion = 3
+    var secondsPerQuestion = 14
     
     // MARK: - Outlets
     
@@ -35,13 +35,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Initialize an array containing the four answer buttons
-        
+        // Rounding the corner of the buttons
         for button in answersButtons {
             button.layer.cornerRadius = 10.0
         }
-        
-        //answerField.isHidden = true
         playAgainButton.layer.cornerRadius = 10.0
     
         SoundManager.playGameStartSound()
@@ -49,8 +46,6 @@ class ViewController: UIViewController {
     }
     
     // MARK: - Helpers
-    
-    
     func displayQuestionAndAnswers() {
         currentQuestion = quizManager.randomQuestion()
         questionField.text = currentQuestion?.title
@@ -58,38 +53,46 @@ class ViewController: UIViewController {
         startTimer()
 
         if let currentQuestion = currentQuestion {
+            // Display 3 or 4 buttons depending of the number of
+            // options of the current question
+            let numberOfOptions = currentQuestion.options.count
             var i = 0
             for button in answersButtons {
-                button.setTitle(currentQuestion.options[i], for: .normal)
-                i += 1
+                if  i < numberOfOptions {
+                    button.setTitle(currentQuestion.options[i], for: .normal)
+                    i += 1
+                } else {
+                    button.isHidden = true
+                }
             }
         }
         playAgainButton.isHidden = true
-        //startTimer()
     }
     
     
     func displayScore() {
         // Hide the answer buttons
-        
         for button in answersButtons {
             button.isHidden = true
         }
        
         // Display play again button
         playAgainButton.isHidden = false
+        answerField.text = ""
         
         questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(quizManager.questionsPerRound) correct!"
     }
     
     func nextRound() {
-       // answerField.isHidden = true
         
+        // Re-enable the buttons
         for button in answersButtons {
             button.isEnabled = true
+            button.isHidden = false
             button.setTitleColor(UIColor.lightGray, for: .disabled)
         }
         
+        // End of a round
         if questionsAsked == quizManager.questionsPerRound {
             // Game is over
             displayScore()
@@ -113,7 +116,6 @@ class ViewController: UIViewController {
     }
     
     // MARK: - Actions
-    
     @IBAction func checkAnswer(_ sender: UIButton) {
         // Increment the questions asked counter
         questionsAsked += 1
@@ -176,8 +178,10 @@ class ViewController: UIViewController {
                                      repeats: true)
     }
     
+    // Function called eaxh second by the timer
     @objc func changeDisplayLabel()
     {
+        // End of the timer (i.e. 15s)
         if secondsPerQuestion == 0  || secondsPerQuestion < 0 {
             timer.invalidate()
             answerField.text = "Sorry, Too Late"
@@ -189,6 +193,7 @@ class ViewController: UIViewController {
         }
     }
     
+    // Re-init the timer
     func reinitTimer() {
         timer.invalidate()
         secondsPerQuestion = 14
