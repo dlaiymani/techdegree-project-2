@@ -132,6 +132,8 @@ class ViewController: UIViewController {
                 answerField.textColor = UIColor.orange
                 answerField.text = "Sorry. That's not it."
                 answerField.isHidden = false
+                // Display the correct answer by animating the button
+                answersButtons[currentQuestion.answer].flash()
             }
         }
         loadNextRound(delay: 2)
@@ -152,5 +154,6 @@ class ViewController: UIViewController {
     }
     
 
+    
 }
 
