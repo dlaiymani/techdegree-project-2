@@ -22,10 +22,10 @@ class Quiz {
                         Question(title: "Which city is the oldest?", options: ["Mexico City", "Cape Town", "San Juan", "Sydney"], answer: 0),
                         Question(title: "Which country was the first to allow women to vote in national elections?", options: ["Poland", "United States", "Sweden", "Senegal"], answer: 0),
                         Question(title: "Which of these countries won the most medals in the 2012 Summer Games? ", options: ["France", "Germany", "Japan", "Great Britian"], answer: 3),
-                        Question(title: "Question 1 ", options: ["Option 1", "Option 2", "Option 3"], answer: 0),
-                        Question(title: "Question 2 ", options: ["Option 1", "Option 2", "Option 3"], answer: 0),
-                        Question(title: "Question 3 ", options: ["Option 1", "Option 2", "Option 3"], answer: 1),
-                        Question(title: "Question 4 ", options: ["Option 1", "Option 2", "Option 3"], answer: 2)
+                        Question(title: "250 x 3 + 12 = ?", options: ["762", "752", "3750"], answer: 0),
+                        Question(title: "In what year was the French Revolution?", options: ["1789", "1792", "1968"], answer: 0),
+                        Question(title: "27 / 0 = ?", options: ["27", "1", "Impossible"], answer: 2),
+                        Question(title: "Who won the Literature Nobel Prize in 1971?", options: ["Albert Camus", "Samuel Beckett", "Pablo Neruda"], answer: 2)
                         ]
     
     var questions: [Question] // a sub-set of questionsSet
@@ -47,9 +47,5 @@ class Quiz {
             
             self.questions.append(questionsSet[randomNumber])
         }
-        
-      /*  for i in 0...3 {
-            print(self.questions[i])
-        }*/
     }
 }

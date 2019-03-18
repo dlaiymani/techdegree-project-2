@@ -111,9 +111,9 @@
                         <viewLayoutGuide key="safeArea" id="T9A-ne-Vtu"/>
                     </view>
                     <connections>
-                        <outlet property="answerField" destination="RBg-o2-QwK" id="bNh-Hy-Fy3"/>
+                        <outlet property="answerLabel" destination="RBg-o2-QwK" id="bNh-Hy-Fy3"/>
                         <outlet property="playAgainButton" destination="Zol-oW-IwN" id="j5S-9d-ZI9"/>
-                        <outlet property="questionField" destination="QjC-DN-esl" id="Ty1-cB-tkX"/>
+                        <outlet property="questionLabel" destination="QjC-DN-esl" id="Ty1-cB-tkX"/>
                         <outletCollection property="answersButtons" destination="xWz-Jc-Q0t" collectionClass="NSMutableArray" id="qEq-5u-DbI"/>
                         <outletCollection property="answersButtons" destination="vHP-Wg-i4e" collectionClass="NSMutableArray" id="GAr-gy-GQ0"/>
                         <outletCollection property="answersButtons" destination="q63-jR-7ye" collectionClass="NSMutableArray" id="mzf-Hf-0UR"/>

@@ -25,8 +25,8 @@ class ViewController: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var questionField: UILabel!
-    @IBOutlet weak var answerField: UILabel!
+    @IBOutlet weak var questionLabel: UILabel!
+    @IBOutlet weak var answerLabel: UILabel!
     
     @IBOutlet var answersButtons: [UIButton]!
 
@@ -48,8 +48,8 @@ class ViewController: UIViewController {
     // MARK: - Helpers
     func displayQuestionAndAnswers() {
         currentQuestion = quizManager.randomQuestion()
-        questionField.text = currentQuestion?.title
-        answerField.textColor = UIColor.orange
+        questionLabel.text = currentQuestion?.title
+        answerLabel.textColor = UIColor.orange
         startTimer()
 
         if let currentQuestion = currentQuestion {
@@ -76,9 +76,9 @@ class ViewController: UIViewController {
         SoundManager.playEndGame()
         // Display play again button
         playAgainButton.isHidden = false
-        answerField.text = ""
+        answerLabel.text = ""
         
-        questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(quizManager.questionsPerRound) correct!"
+        questionLabel.text = "Way to go!\nYou got \(correctQuestions) out of \(quizManager.questionsPerRound) correct!"
     }
     
     func nextRound() {
@@ -118,30 +118,30 @@ class ViewController: UIViewController {
         // Increment the questions asked counter
         questionsAsked += 1
         // Disable non answered button and return the answer number
-        var numButton = 0
+        var buttonNumber = 0
         for (index, button) in answersButtons.enumerated() {
             if button != sender {
                 button.isEnabled = false
             } else {
-                numButton = index
+                buttonNumber = index
             }
         }
         
         // Test if the answer is correct
         if let currentQuestion = currentQuestion  {
-            let isAnswerCorrect = quizManager.checkAnswer(currentQuestion, userAnswer: numButton)
+            let isAnswerCorrect = quizManager.checkAnswer(currentQuestion, userAnswer: buttonNumber)
             if isAnswerCorrect {
-                answerField.textColor = UIColor(red: 0/255.0, green: 147/255.0, blue: 135/255.0, alpha: 1.0)
-                answerField.text = "Correct!"
+                answerLabel.textColor = UIColor(red: 0/255.0, green: 147/255.0, blue: 135/255.0, alpha: 1.0)
+                answerLabel.text = "Correct!"
                 SoundManager.playCorrectAnswerSound()
-                answerField.isHidden = false
+                answerLabel.isHidden = false
                 correctQuestions += 1
 
             } else {
-                answerField.textColor = UIColor.orange
-                answerField.text = "Sorry. That's not it."
+                answerLabel.textColor = UIColor.orange
+                answerLabel.text = "Sorry. That's not it."
                 SoundManager.playIncorrectAnswerSound()
-                answerField.isHidden = false
+                answerLabel.isHidden = false
                 // Display the correct answer by animating the button
                 answersButtons[currentQuestion.answer].setTitleColor(UIColor.orange, for: .disabled)
                 answersButtons[currentQuestion.answer].flash()
@@ -168,7 +168,7 @@ class ViewController: UIViewController {
     
     // MARK: Timer
     func startTimer() {
-        answerField.text = "\(secondsPerQuestion+1)"
+        answerLabel.text = "\(secondsPerQuestion+1)"
         timer = Timer.scheduledTimer(timeInterval: 1 ,
                                      target: self,
                                      selector: #selector(self.changeDisplayLabel),
@@ -182,11 +182,11 @@ class ViewController: UIViewController {
         // End of the timer (i.e. 15s)
         if secondsPerQuestion == 0  || secondsPerQuestion < 0 {
             timer.invalidate()
-            answerField.text = "Sorry, Too Late"
+            answerLabel.text = "Sorry, Too Late"
             loadNextRound(delay: 2)
             
         } else {
-            answerField.text = "\(secondsPerQuestion)"
+            answerLabel.text = "\(secondsPerQuestion)"
             secondsPerQuestion -= 1
         }
     }
